@@ -88,6 +88,107 @@ include '../includes/db.php';
     }
 
     /* END BODY */
+    /* Reset & Font */
+    footer {
+      background-color: #1e1e1e;
+      color: #ffffff;
+      padding: 40px 20px 20px;
+      margin-top: 60px;
+    }
+
+    .footer__container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: auto;
+      gap: 30px;
+    }
+
+    .footer__section {
+      flex: 1 1 250px;
+    }
+
+    .footer__logo {
+      font-size: 26px;
+      color: #f8c146;
+      margin-bottom: 10px;
+    }
+
+    .footer__description {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .footer__title {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #f8c146;
+    }
+
+    .footer__links {
+      list-style: none;
+    }
+
+    .footer__links li {
+      margin-bottom: 8px;
+    }
+
+    .footer__links a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer__links a:hover {
+      color: #f8c146;
+    }
+
+    .footer__form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer__input {
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .footer__button {
+      padding: 10px;
+      background-color: #f8c146;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    .footer__button:hover {
+      background-color: #e0ab2f;
+    }
+
+    .footer__bottom {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 13px;
+      border-top: 1px solid #444;
+      padding-top: 15px;
+      color: #ccc;
+    }
+
+    /* Responsive */
+    @media screen and (max-width: 768px) {
+      .footer__container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
   </style>
   <link rel="stylesheet" href="../assets/css/styles.css">
   <link rel="stylesheet" href="../assets/font/fontawesome-free-6.6.0-web/css/all.min.css">

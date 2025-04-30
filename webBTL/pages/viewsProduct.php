@@ -281,11 +281,6 @@ include '../includes/db.php';
           <li class="header__nav-listitem "><a href="aboutus.php">About US</a></li>
           <li class="header__nav-listitem "><a href="size.php">Size</a></li>
           <li class="header__nav-listitem "><a href="returnpolicy.php">Return Policy</a></li>
-
-
-
-
-
         </ul>
       </div>
       <div class="header__search">
@@ -400,8 +395,6 @@ include '../includes/db.php';
       echo "ID sản phẩm không hợp lệ.";
     }
     ?>
-
-
     <hr />
 
     <!-- LIST PRODUCT -->
@@ -457,12 +450,7 @@ include '../includes/db.php';
               <span>$120.00</span>
             </div>
           </div>
-
         </div>
       </section>
     </div>
   </div>
-
-  <?php
-  include '../includes/footer.php';
-  ?>
