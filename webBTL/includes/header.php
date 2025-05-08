@@ -1,8 +1,3 @@
-<?php
-
-session_start();
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,10 +8,6 @@ session_start();
     <link rel="stylesheet" href="./assets/css/reset.css">
     <link rel="stylesheet" href="./assets/font/fontawesome-free-6.6.0-web/css/all.min.css">
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             font-family: Arial, sans-serif;
         }
@@ -135,20 +126,6 @@ session_start();
         .header__nav-listitem a {
             text-decoration: none;
             color: black;
-        }
-
-        .container {
-            width: 400px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: bold;
         }
 
         .form-group {
@@ -301,204 +278,7 @@ session_start();
             cursor: pointer;
         }
 
-        .img-animation-i {
-            width: 100%;
-            /* Chiếm toàn bộ chiều rộng màn hình */
-            max-width: 1275px;
-            /* Đảm bảo ảnh không vượt quá kích thước gốc */
-            height: auto;
-            /* Tự động điều chỉnh chiều cao theo tỉ lệ */
-            margin: 0 auto;
-            /* Canh giữa */
-            display: block;
-            /* Đảm bảo ảnh là một block-level element */
-            cursor: pointer;
-            /* Thêm hiệu ứng con trỏ */
-
-        }
-
-
-        .trendstyles {
-            padding: 40px 100px;
-        }
-
-        .trendstyle {
-            /* font-size: 30px; */
-            padding-left: 20px;
-            font-size: 36px;
-        }
-
-        .shop {
-            padding-top: 20px;
-            padding-left: 22px;
-            display: flex;
-            cursor: pointer;
-        }
-
-        .shop-des {
-            padding-left: 10px;
-            font-weight: bold;
-        }
-
-        .product {
-            display: flex;
-            margin: 0 100px;
-
-            justify-content: space-between;
-            align-items: center;
-
-        }
-
-        .products img {
-            width: 100%;
-            padding: 10px 10px;
-            /* height: 100%;
-    width: 25%;
-    padding: 10px;
-    object-fit: contain; */
-        }
-
-        .products:hover {
-            /* background: rgba(0, 0, 0, 0.3); */
-            filter: grayscale(100%);
-        }
-
-        .img-des img {
-            margin-top: 10px;
-        }
-
-        .sex {
-            display: flex;
-            margin: 0 150px;
-            justify-content: space-between;
-            align-items: center;
-
-        }
-
-        .sex img {
-            width: 100%;
-            padding: 80px 10px;
-        }
-
-        .community {
-            margin-left: 110px;
-            font-weight: bold;
-            font-size: 30px;
-            margin-top: 100px;
-        }
-
-        .community-img {
-            margin: 10px 100px;
-            display: flex;
-            cursor: pointer;
-
-        }
-
-        .community-img img {
-            width: 100%;
-        }
-
-        .community-img_big {
-
-            flex: 1;
-
-        }
-
-        .community-img_bing {
-            flex: 1;
-
-        }
-
-        .community-img_middle {
-            flex: 1;
-        }
-
-        .community-img_middle img {
-            width: 100%;
-
-        }
-
-        .community-img_smaill {
-            display: flex;
-            flex: 1;
-            transform: translateY(-0.65%);
-        }
-
-        .community-img_smaill img {
-            width: 50%;
-            height: auto;
-        }
-
-
-        .community-img_big:hover,
-        .community-img_middle:hover,
-        .abccc:hover,
-        .abcdc:hover {
-            filter: brightness(80%);
-        }
-
-        .explore {
-            margin: 40px 100px;
-            font-size: 30px;
-            font-weight: bold;
-        }
-
-        .mailing {
-            margin-top: 60px;
-        }
-
-        .explore-converse {
-            display: flex;
-            margin: 0 100px;
-            justify-content: space-around;
-
-        }
-
-        .allMen,
-        .allWomen,
-        .allChild {
-            display: flex;
-            font-size: 20px;
-            font-weight: bold;
-            padding-bottom: 5px;
-        }
-
-        .allMen:hover,
-        .allWomen:hover,
-        .allChild:hover {
-            border-bottom: 2px solid #000;
-            cursor: pointer;
-        }
-
-        .scroll-top-btn {
-            position: fixed;
-            bottom: 20px;
-            /* Cách đáy màn hình 20px */
-            right: 20px;
-            /* Cách phải màn hình 20px */
-            display: none;
-            /* Ban đầu ẩn nút */
-            font-size: 20px;
-            /* Kích thước của icon */
-            background-color: #007bff;
-            /* Màu nền xanh dương */
-            color: white;
-            /* Màu chữ trắng */
-            border: none;
-            /* Xóa đường viền */
-            border-radius: 50%;
-            /* Bo tròn nút */
-            padding: 15px;
-            /* Đệm trong nút */
-            cursor: pointer;
-            /* Con trỏ chuột */
-            z-index: 1000;
-            /* Nút luôn nổi trên các phần tử khác */
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-            /* Đổ bóng */
-        }
-
-        /* Reset & Font */
+        /* Footer */
         footer {
             background-color: #1e1e1e;
             color: #ffffff;
@@ -642,31 +422,31 @@ session_start();
         </div>
         <div class="header">
             <div class="header__icon">
-                <a href="#" class="header__icon-link">trademark</a>
+                <a href="../index.php" class="header__icon-link">trademark</a>
             </div>
             <div class="header__nav">
                 <ul class="header__nav-list">
-                    <li class="header__nav-listitem"><a href="./pages/news.php">Run Star Trainer</a></li>
-                    <li class="header__nav-listitem "><a href="./pages/product.php">Product</a></li>
-                    <li class="header__nav-listitem "><a href="./pages/aboutus.php">About US</a></li>
-                    <li class="header__nav-listitem "><a href="./pages/size.php">Size</a></li>
-                    <li class="header__nav-listitem "><a href="./pages/returnpolicy.php">Return Policy</a></li>
+                    <li class="header__nav-listitem"><a href="news.php">Run Star Trainer</a></li>
+                    <li class="header__nav-listitem "><a href="product.php">Product</a></li>
+                    <li class="header__nav-listitem "><a href="aboutus.php">About US</a></li>
+                    <li class="header__nav-listitem "><a href="size.php">Size</a></li>
+                    <li class="header__nav-listitem "><a href="returnpolicy.php">Return Policy</a></li>
                 </ul>
             </div>
             <div class="header__search">
                 <div class="header__search-abc">
                     <?php if (isset($_SESSION['user'])): ?>
                         <div class="header__search-signin-des" id="user" onclick="">
-                            <a href="./pages/profile.php" style="text-decoration: none;color:#444"><?php echo $_SESSION['user']; // Hiển thị tên người dùng 
-                                                                                                    ?></a>
+                            <a href="profile.php" style="text-decoration: none;color:#444"><?php echo $_SESSION['user']; // Hiển thị tên người dùng 
+                                                                                            ?></a>
                         </div>
                         <div class="header__search-signin-icon">
 
-                            <a href="./pages/logout.php" style="text-decoration: none;color:#444" class="header__search-signout  ">Đăng xuất</a>
+                            <a href="logout.php" style="text-decoration: none;color:#444" class="header__search-signout  ">Đăng xuất</a>
                         </div>
                     <?php else: ?>
                         <div class="header__search-signin-des " id="signin">
-                            <a href="./pages/login.php" style="text-decoration: none;color:#444">Sign In</a>
+                            <a href="login.php" style="text-decoration: none;color:#444">Sign In</a>
                         </div>
                         <div class="header__search-signin-icon">
                             <i class="fa-solid fa-user"></i>
@@ -683,13 +463,13 @@ session_start();
                         <!-- Hiển thị giỏ hàng khi người dùng đã đăng nhập -->
                         <div class="header__search-buy-icon">
                             <i class="fa-solid fa-cart-plus"></i>
+
                         </div>
 
                     <?php endif; ?>
                 </div>
 
                 <div class="class__search-abc">
-
                     <div class="header__search-search-icon">
                         <i class="fa-solid fa-search"></i>
                     </div>

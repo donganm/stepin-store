@@ -23,14 +23,27 @@ include '../includes/db.php';
     integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
     crossorigin="anonymous"
     referrerpolicy="no-referrer" />
-
   <style>
-    a {
-      text-decoration: none;
+    html,
+    body,
+    div,
+    ol,
+    ul,
+    li,
+    footer,
+    header,
+    menu {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 62.5%;
+      font: inherit;
+      vertical-align: baseline;
     }
 
+    ol,
     ul {
-      list-style-type: none;
+      list-style: none;
     }
 
     .container1 {
@@ -39,10 +52,6 @@ include '../includes/db.php';
       margin-left: auto;
       margin-right: auto;
     }
-
-    /* Header */
-
-    /* End Header */
 
     /* Body  */
     .body_main p b {
@@ -76,107 +85,6 @@ include '../includes/db.php';
     }
 
     /* End Body */
-    /* Reset & Font */
-    footer {
-      background-color: #1e1e1e;
-      color: #ffffff;
-      padding: 40px 20px 20px;
-      margin-top: 60px;
-    }
-
-    .footer__container {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      max-width: 1200px;
-      margin: auto;
-      gap: 30px;
-    }
-
-    .footer__section {
-      flex: 1 1 250px;
-    }
-
-    .footer__logo {
-      font-size: 26px;
-      color: #f8c146;
-      margin-bottom: 10px;
-    }
-
-    .footer__description {
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .footer__title {
-      font-size: 18px;
-      margin-bottom: 10px;
-      color: #f8c146;
-    }
-
-    .footer__links {
-      list-style: none;
-    }
-
-    .footer__links li {
-      margin-bottom: 8px;
-    }
-
-    .footer__links a {
-      color: #fff;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .footer__links a:hover {
-      color: #f8c146;
-    }
-
-    .footer__form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .footer__input {
-      padding: 10px;
-      border: none;
-      border-radius: 4px;
-      font-size: 14px;
-      width: 100%;
-    }
-
-    .footer__button {
-      padding: 10px;
-      background-color: #f8c146;
-      border: none;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 4px;
-      transition: background-color 0.3s ease;
-    }
-
-    .footer__button:hover {
-      background-color: #e0ab2f;
-    }
-
-    .footer__bottom {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 13px;
-      border-top: 1px solid #444;
-      padding-top: 15px;
-      color: #ccc;
-    }
-
-    /* Responsive */
-    @media screen and (max-width: 768px) {
-      .footer__container {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
   </style>
   <link rel="stylesheet" href="../assets/css/styles.css">
   <link rel="stylesheet" href="../assets/font/fontawesome-free-6.6.0-web/css/all.min.css">
@@ -184,110 +92,9 @@ include '../includes/db.php';
 </head>
 
 <body>
-  <!-- Header  -->
-  <div class="main">
-    <div class="ontop">
-      <div class="logovn">
-        <i class="fa-solid fa-font-awesome logo__icon"></i>
-        <div class="logovn__text">VN</div>
-      </div>
-      <div class="ontop__des">
-        <div class="ontop__des-upper">Free Shipping!</div>
-        <div class="ontop__des-lower">On All Orders</div>
-      </div>
-      <div class="ontop__help">
-        <div class="ontop__help-logo">
-          <div class="ontop__help-logo-icon ">
-            <i class="fa-solid fa-font-awesome"></i>
-          </div>
-          <div class="ontop__help-logo-text ">VIETNAMESE</div>
-        </div>
-        <div class="ontop_help-locator">
-          <div class="ontop__help-locator-icon ">
-            <i class="fa-solid fa-location-dot "></i>
-          </div>
-          <div class="ontop__help-locator-text ">Store Locator</div>
-        </div>
-        <div class="ontop__help-track">
-          <div class="ontop__help-track-icon  ">
-            <i class="fa-solid fa-cart-shopping"></i>
-          </div>
-          <div class="ontop__help-track-text ">Track Oder</div>
-        </div>
-        <div class="ontop__help-help">
-          <div class="ontop__help-help-icon a">
-            <i class="fa-solid fa-question"></i>
-          </div>
-          <div class="ontop__help-help-text a">Help</div>
-        </div>
-      </div>
-    </div>
-    <div class="header">
-      <div class="header__icon">
-        <a href="../index.php" class="header__icon-link">trademark</a>
-      </div>
-      <div class="header__nav">
-        <ul class="header__nav-list">
-          <li class="header__nav-listitem"><a href="news.php">Run Star Trainer</a></li>
-          <li class="header__nav-listitem "><a href="product.php">Product</a></li>
-          <li class="header__nav-listitem "><a href="aboutus.php">About US</a></li>
-          <li class="header__nav-listitem "><a href="size.php">Size</a></li>
-          <li class="header__nav-listitem "><a href="returnpolicy.php">Return Policy</a></li>
-
-
-
-
-
-        </ul>
-      </div>
-      <div class="header__search">
-        <div class="header__search-abc">
-          <?php if (isset($_SESSION['user'])): ?>
-            <div class="header__search-signin-des" id="user" onclick="">
-              <a href="profile.php" style="text-decoration: none;color:#444"><?php echo $_SESSION['user']; // Hiển thị tên người dùng 
-                                                                              ?></a>
-            </div>
-            <div class="header__search-signin-icon">
-
-              <a href="logout.php" style="text-decoration: none;color:#444" class="header__search-signout  ">Đăng xuất</a>
-            </div>
-          <?php else: ?>
-            <div class="header__search-signin-des " id="signin">
-              <a href="login.php" style="text-decoration: none;color:#444">Sign In</a>
-            </div>
-            <div class="header__search-signin-icon">
-              <i class="fa-solid fa-user"></i>
-            </div>
-          <?php endif; ?>
-        </div>
-        <div class="header__search-abc">
-          <div class="header__search-heart-icon">
-            <i class="fa-solid fa-heart"></i>
-          </div>
-        </div>
-        <div class="header__search-abc">
-          <?php if (isset($_SESSION['user'])): ?>
-            <!-- Hiển thị giỏ hàng khi người dùng đã đăng nhập -->
-            <div class="header__search-buy-icon">
-              <i class="fa-solid fa-cart-plus"></i>
-
-            </div>
-
-          <?php endif; ?>
-        </div>
-
-        <div class="class__search-abc">
-
-          <div class="header__search-search-icon">
-            <i class="fa-solid fa-search"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- End Header -->
-
+  <!-- Header -->
+  <?php include("../includes/header.php"); ?>
+  <!-- End header -->
   <!-- Body  -->
   <div class="container1">
     <div class="body_main">
