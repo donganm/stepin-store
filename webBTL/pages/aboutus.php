@@ -93,27 +93,25 @@ include '../includes/db.php';
 
       <div class="body_main">
         <div class="content">
-          <h2 class="title">ABOUT TRADEMARK</h2>
+          <h2 class="title">VỀ TRADEMARK</h2>
           <p>
-            Welcome to Trademark, where every step begins a journey, and every design tells a story. Founded in 2023, Trademark is more than just a shoe store - it’s a platform that connects creators, sellers, and buyers in a shared passion for footwear.
+            Chào mừng bạn đến với hệ thống quản lý bán hàng – nơi mọi sản phẩm không chỉ là một món hàng, mà còn là sự kết nối giữa thương hiệu, người bán và khách hàng. Được phát triển từ năm 2023, nền tảng của chúng tôi hướng tới việc hiện đại hóa quy trình kinh doanh và tạo điều kiện cho mọi cửa hàng thời trang, từ nhỏ lẻ đến quy mô lớn.
           </p>
-          <p></p>
           <p>
-            We are a community-driven marketplace where independent sellers can showcase their unique designs, and customers can discover shoes that reflect their individuality. At Trademark, creativity knows no bounds. Our platform welcomes all styles and celebrates diversity, offering a curated collection of footwear for every gender and every walk of life.
+            Đây là nơi các cửa hàng thời trang có thể dễ dàng quản lý sản phẩm quần áo, giày dép và phụ kiện của mình, đồng thời tiếp cận đến khách hàng một cách nhanh chóng và hiệu quả. Giao diện thân thiện, tính năng thông minh, và khả năng tùy chỉnh linh hoạt giúp người dùng tiết kiệm thời gian, tối ưu hoạt động kinh doanh.
           </p>
-          <p></p>
           <p>
-            Built on a foundation of innovation and collaboration, Trademark thrives on empowering small businesses while maintaining ethical practices and high-quality standards. Here, comfort, style, and self-expression merge seamlessly to create a space where every seller’s vision can shine and every customer can find their perfect fit.
+            Chúng tôi xây dựng hệ thống với định hướng hỗ trợ các doanh nghiệp nhỏ phát triển, đồng thời mang lại trải nghiệm mua sắm tiện lợi, minh bạch và hiện đại cho khách hàng. Tại đây, sự sáng tạo trong thiết kế, chất lượng sản phẩm và tính cá nhân hóa luôn được đặt lên hàng đầu.
           </p>
-          <p></p>
           <p>
-            At Trademark, it’s not just about shoes - it’s about stepping into a world of possibilities.
+            Hệ thống quản lý bán hàng không chỉ là công cụ – mà là đối tác đồng hành cùng bạn trên hành trình phát triển kinh doanh bền vững.
           </p>
         </div>
         <div class="images">
           <img src="../assets/img/about2.jpg">
         </div>
       </div>
+
     </div>
   </div>
 

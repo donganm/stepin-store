@@ -148,6 +148,21 @@ include '../includes/db.php';
             color: #fff;
             border-color: #007bff;
         }
+
+        @media (max-width: 600px) {
+            .product-name {
+                font-size: 16px;
+            }
+
+            .product-price {
+                font-size: 14px;
+            }
+
+            .product-button {
+                font-size: 13px;
+                padding: 8px 16px;
+            }
+        }
     </style>
 </head>
 
@@ -181,7 +196,7 @@ include '../includes/db.php';
 
     <div class="container1">
         <div class="product-intro">
-            <img src="../assets/img/product/bg.webp" />
+            <img src="../assets/img/trangchu/mens-aesthetic-clothing.webp" />
         </div>
         <div class="text-center">
             <div>
@@ -290,6 +305,8 @@ include '../includes/db.php';
                 products.forEach((product) => productList.appendChild(product));
             });
         });
+
+        // Thêm sản phẩm vào giỏ hàng
     </script>
 
 

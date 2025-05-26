@@ -27,279 +27,78 @@ session_start();
             font-family: "Open Sans", sans-serif;
         }
 
-        .ontop {
+        .header {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            background-color: #ebebeb;
-            height: 20px;
-        }
-
-        .logovn {
-            display: flex;
-            align-items: center;
-            font-size: 0.7rem;
-        }
-
-        .logovn i {
-            padding: 5px 10px;
-
-        }
-
-        .ontop__des {
-            display: flex;
-            align-items: center;
-            transform: translateX(60%);
-            font-size: 0.7rem;
-        }
-
-        .ontop__des-upper {
-            margin-right: 0.4rem;
-            font-weight: bold;
-        }
-
-        .ontop__help {
-            display: flex;
-            align-items: center;
-            font-size: 0.7rem;
-        }
-
-        .ontop__help-help,
-        .ontop__help-track,
-        .ontop_help-locator,
-        .ontop__help-logo {
-            display: flex;
-            cursor: pointer;
-        }
-
-        .ontop__help-logo-text,
-        .ontop__help-track-text,
-        .ontop__help-help-text,
-        .ontop__help-locator-text {
-            margin: 0 10px;
-        }
-
-
-        .ontop__help-logo-text:hover,
-        .ontop__help-track-text:hover,
-        .ontop__help-help-text:hover,
-        .ontop__help-locator-text:hover {
-            border-bottom: 2px solid black;
+            padding: 30px 60px;
+            background-color: white;
+            font-family: 'Georgia', serif;
+            border-bottom: 1px solid #eee;
         }
 
         .header__icon-link {
-            text-decoration: none;
-            text-transform: uppercase;
+            font-size: 28px;
             font-weight: bold;
-            color: #000;
-            margin-left: 3rem;
-            align-items: center;
-
+            color: #222;
+            text-decoration: none;
+            font-style: italic;
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            height: 3rem;
-            background: #f8f6f6;
-            align-items: center;
-            /* Căn giữa theo chiều dọc */
-            justify-content: space-between;
-            position: sticky;
-            right: 0;
-            left: 0;
-            top: 0;
-            z-index: 1;
-
+        .header__nav {
+            flex-grow: 1;
+            text-align: center;
         }
 
         .header__nav-list {
-            display: flex;
-        }
-
-        .header__nav-listitem {
-            margin-right: 0.5rem;
-            margin-left: 0.5rem;
-            font-weight: bold;
-            transition: opacity 0.3s ease;
-            /* Thêm hiệu ứng chuyển cho border */
-            line-height: 1.5;
-            border-bottom: 2px solid transparent;
-            padding-bottom: 5px;
-        }
-
-        .header__nav-listitem:hover {
-            opacity: 1;
-
+            list-style: none;
+            display: inline-flex;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
         }
 
         .header__nav-listitem a {
             text-decoration: none;
-            color: black;
+            font-size: 16px;
+            color: #444;
+            font-family: 'Arial', sans-serif;
         }
 
-        .container {
-            width: 400px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        .header__nav-listitem a:hover {
+            color: #000;
         }
-
-        .container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-
-        .btn {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            flex: 1;
-            margin: 5px;
-            text-align: center;
-
-        }
-
-        .btn-login {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .btn-register {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .btn-home {
-            background-color: #f0ad4e;
-            color: white;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .header__nav-listitem-title {
-            font-weight: bold;
-            margin: 3rem 6rem;
-            font-size: 1.3rem;
-            transform: translateX(-10000%);
-        }
-
-
-        .header__nav-listitem-title-child {
-            /* font-weight: 100;
-    margin: 1rem 0;
-    font-size:0.9rem; */
-            padding-top: 0.2rem;
-        }
-
-        .tong {
-            font-weight: 100;
-            margin: 1rem 0;
-            font-size: 0.9rem;
-        }
-
-        .header__nav-listitem:hover {
-            border-bottom: 2px solid black;
-            cursor: pointer;
-            padding-bottom: 5px;
-
-        }
-
-        .header__nav-listitem:hover .header__nav-listitem-oder {
-            display: flex;
-        }
-
-        .header__nav-listitem:hover .header__nav-listitem-oder {
-            /* color: aqua; */
-            display: flex;
-        }
-
-        .header__nav-listitem:last-child {
-            color: red;
-        }
-
-
-        .header__nav-listitem:hover .header__nav-listitem-oder {
-            display: flex;
-        }
-
-
 
         .header__search {
             display: flex;
-
+            align-items: center;
         }
 
-        .header__search-signin {
+        .header__search-abc {
             display: flex;
-
+            gap: 15px;
+            align-items: center;
         }
 
-        /* .header__search-abc {
-    margin: 0 10px;
-} */
-
-        .header__search-abc:first-child {
-            display: flex;
+        .header__search-signin-des a,
+        .header__search-signout {
+            text-decoration: none;
+            color: #444;
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
         }
 
-        .header__search-signin-des {
-            padding: 0 10px;
-            cursor: pointer;
+        .header__search-signin-icon i {
+            font-size: 18px;
+            color: #444;
         }
 
-        .header__search-search-icon,
-        .header__search-signin-icon,
-        .header__search-heart-icon,
-        .header__search-buy-icon,
-        .header__search-signin-des {
-
-            padding: 15px;
+        /* Optional: Nếu bạn có biểu tượng giỏ hàng */
+        .header__search .fa-bag-shopping {
+            font-size: 20px;
+            color: #222;
         }
 
-        .header__search-buy-icon {
-            position: relative;
-        }
-
-
-
-        .header__search-search-icon {
-            color: white;
-            background-color: #000;
-        }
-
-        .header__search-buy-icon,
-        .header__search-search-icon:hover {
-            cursor: pointer;
-        }
 
         .img-animation-i {
             width: 100%;
@@ -381,10 +180,10 @@ session_start();
         }
 
         .community {
-            margin-left: 110px;
+            margin-left: 100px;
             font-weight: bold;
             font-size: 30px;
-            margin-top: 100px;
+            /* margin-top: 100px; */
         }
 
         .community-img {
@@ -399,39 +198,10 @@ session_start();
         }
 
         .community-img_big {
-
-            flex: 1;
-
-        }
-
-        .community-img_bing {
-            flex: 1;
-
-        }
-
-        .community-img_middle {
             flex: 1;
         }
-
-        .community-img_middle img {
-            width: 100%;
-
-        }
-
-        .community-img_smaill {
-            display: flex;
-            flex: 1;
-            transform: translateY(-0.65%);
-        }
-
-        .community-img_smaill img {
-            width: 50%;
-            height: auto;
-        }
-
 
         .community-img_big:hover,
-        .community-img_middle:hover,
         .abccc:hover,
         .abcdc:hover {
             filter: brightness(80%);
@@ -604,49 +374,14 @@ session_start();
 
 <body>
     <div class="main">
-        <div class="ontop">
-            <div class="logovn">
-                <i class="fa-solid fa-font-awesome logo__icon"></i>
-                <div class="logovn__text">VN</div>
-            </div>
-            <div class="ontop__des">
-                <div class="ontop__des-upper">Free Shipping!</div>
-                <div class="ontop__des-lower">On All Orders</div>
-            </div>
-            <div class="ontop__help">
-                <div class="ontop__help-logo">
-                    <div class="ontop__help-logo-icon ">
-                        <i class="fa-solid fa-font-awesome"></i>
-                    </div>
-                    <div class="ontop__help-logo-text ">VIETNAMESE</div>
-                </div>
-                <div class="ontop_help-locator">
-                    <div class="ontop__help-locator-icon ">
-                        <i class="fa-solid fa-location-dot "></i>
-                    </div>
-                    <div class="ontop__help-locator-text ">Store Locator</div>
-                </div>
-                <div class="ontop__help-track">
-                    <div class="ontop__help-track-icon  ">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="ontop__help-track-text ">Track Oder</div>
-                </div>
-                <div class="ontop__help-help">
-                    <div class="ontop__help-help-icon a">
-                        <i class="fa-solid fa-question"></i>
-                    </div>
-                    <div class="ontop__help-help-text a">Help</div>
-                </div>
-            </div>
-        </div>
+
         <div class="header">
             <div class="header__icon">
                 <a href="#" class="header__icon-link">trademark</a>
             </div>
             <div class="header__nav">
                 <ul class="header__nav-list">
-                    <li class="header__nav-listitem"><a href="./pages/news.php">Run Star Trainer</a></li>
+                    <li class="header__nav-listitem"><a href="./pages/news.php" style="color: red;">Run Star Trainer</a></li>
                     <li class="header__nav-listitem "><a href="./pages/product.php">Product</a></li>
                     <li class="header__nav-listitem "><a href="./pages/aboutus.php">About US</a></li>
                     <li class="header__nav-listitem "><a href="./pages/size.php">Size</a></li>
@@ -673,34 +408,14 @@ session_start();
                         </div>
                     <?php endif; ?>
                 </div>
-                <div class="header__search-abc">
-                    <div class="header__search-heart-icon">
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                </div>
-                <div class="header__search-abc">
-                    <?php if (isset($_SESSION['user'])): ?>
-                        <!-- Hiển thị giỏ hàng khi người dùng đã đăng nhập -->
-                        <div class="header__search-buy-icon">
-                            <i class="fa-solid fa-cart-plus"></i>
-                        </div>
 
-                    <?php endif; ?>
-                </div>
-
-                <div class="class__search-abc">
-
-                    <div class="header__search-search-icon">
-                        <i class="fa-solid fa-search"></i>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
 
     <div class="img-animation">
-        <img src="./assets/img/run_star_trainer_eng_main_desktop.webp " class="img-animation-i" alt="">
+        <img src="./assets/img/trangchu/summer-sale-25-desktop-banner.webp" class="img-animation-i" alt="">
     </div>
 
     <div class="trendstyles">
@@ -716,35 +431,20 @@ session_start();
         <div class="products"><img src="./assets/img/vation.jpg" alt=""></div>
         <div class="products"><img src="./assets/img/comfort.jpg" alt=""></div>
     </div>
-    <!-- <div class="img-des">
-        <div class="slider">
-            <img src="./assets/img/croc_leather_secondary_eng_desktop.webp" class="img-animation-i" alt="">
-            <img src="./assets/img/my_love_pack_secondary_eng_desktop.webp" class="img-animation-i" alt="">
-            <img src="./assets/img/dekstop_34_.webp" class="img-animation-i" alt="">
-        </div>
-    </div> -->
+
     <div class="sex">
         <div><img src="./assets/img/MEN_copy_1_.webp" alt=""></div>
         <div><img src="./assets/img/WOMEN_copy_1_.webp" alt=""></div>
         <div><img src="./assets/img/UNISEX_2_.webp" alt=""></div>
     </div>
 
-    <!-- <div class="cruise_ENG">
-        <img src="./assets/img/cruise_ENG_Tertiary_Desktop.webp" class="img-animation-i" alt="">
-    </div> -->
     <div class="community">
         From Our Community
     </div>
     <div class="community-img">
-        <div class="community-img_big"><img src="./assets/img/Large_banner_left_3_.webp" alt=""></div>
-        <div class="community-img_bing">
-            <div class="community-img_middle"><img src="./assets/img/Large_banner_right_ENG_3_.webp" alt=""></div>
-            <div class="community-img_smaill"><img src="./assets/img/Small_banner_middle_ENG_3_.webp" class="abccc" alt="">
-                <img src="./assets/img/Small_banner_right_3_.webp" class="abcdc" alt="">
-            </div>
-        </div>
+        <div class="community-img_big"><img src="./assets/img/trangchu/nen.webp" alt=""></div>
     </div>
-    <!-- <div class="mailing"><img src="./assets/img/Mailing_Desktop_2_.webp" class="img-animation-i" alt=""></div> -->
+
     <div class="explore">
         Explore Trademark
     </div>

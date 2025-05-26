@@ -5,18 +5,14 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $userName = $_POST['username'];
     $passWord = $_POST['password'];
     $role;
-    // Chuẩn bị câu lệnh SQL để tránh SQL Injection
     $sql = "SELECT * FROM users WHERE `Username` = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "s", $userName);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
-    // Kiểm tra nếu tìm thấy người dùng
     if ($row = mysqli_fetch_assoc($result)) {
-        // Kiểm tra mật khẩu
         if ($passWord == $row['Password']) {
-            // Mở session và lưu thông tin người dùng
             session_start();
             $_SESSION['role'] = $row['Role'];
             $_SESSION['user'] = $userName;
@@ -28,11 +24,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     } else {
         echo "<script>alert('Tên đăng nhập không chính xác');</script>";
     }
-} else {
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "<script>alert('Vui lòng nhập đầy đủ thông tin');</script>";
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,117 +37,133 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="./assets/css/reset.css">
-    <link rel="stylesheet" href="./assets/css/styles.css">
     <link rel="stylesheet" href="./assets/font/fontawesome-free-6.6.0-web/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .container {
-            background: #fff;
-            padding: 20px 30px;
-            border-radius: 10px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            max-width: 450px;
-            width: 100%;
-            text-align: center;
-        }
-
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        /* Form Group */
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        * {
             box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .login-container {
+            display: flex;
+            width: 100%;
+        }
+
+        .form-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+        }
+
+        .form-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            padding-right: 40px;
+            border-radius: 12px;
+            border: none;
+            background-color: #f3f6fd;
+            font-size: 16px;
+        }
+
+        .form-group i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0a0a0;
+        }
+
+        .form-section .forgot {
+            text-align: right;
             font-size: 14px;
-            margin-top: 5px;
+            color: #a0a0a0;
+            margin-bottom: 30px;
         }
 
-        input:focus {
-            border-color: #b5b5b5;
-            outline: none;
-            /* bỏ đường viền */
-            box-shadow: 0 0 5px #b5b5b5;
-        }
-
-        /* Button Group */
-        .btn-group {
-            text-align: center;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 15px;
-            margin: 5px;
-            background: #333;
+        .form-section button {
+            width: 100%;
+            background-color: #1e90ff;
             color: white;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 5px;
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 30px;
             cursor: pointer;
-            text-decoration: none;
-            border: 2px solid #333;
         }
 
-        .btn:hover {
-            background: white;
-            color: #333;
+        .form-section .create-account {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #a0a0a0;
+        }
+
+        .form-section .create-account a {
+            color: #1e90ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .image-section {
+            flex: 1;
+            background: url('../assets/img/login.jpg') no-repeat center center/cover;
+            clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+            }
+
+            .image-section {
+                display: none;
+            }
+
+            .form-section {
+                padding: 0 20px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h2>Đăng Nhập</h2>
-
-        <?php if (isset($error)) {
-            echo "<p class='error-message'>$error</p>";
-        } ?>
-
-        <form method="POST" action="login.php">
-            <div class="form-group">
-                <label for="username">Tài khoản</label>
-                <input type="text" id="username" name="username" placeholder="Nhập tài khoản" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Mật khẩu</label>
-                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
-            </div>
-            <div class="btn-group">
-                <button class="btn btn-login" type="submit">Đăng Nhập</button>
-                <!-- Nút đăng ký -->
-                <a class="btn btn-register" href="register.php">Đăng Ký</a>
-            </div>
-            <!-- Nút quay lại trang chủ -->
-            <div class="btn-group">
-                <div class="btn btn-home goHome" onclick="goHome()">Quay Lại Trang Chủ</div>
-            </div>
-        </form>
+    <div class="login-container">
+        <div class="form-section">
+            <h2>Log in to your account.</h2>
+            <form method="POST" action="login.php">
+                <div class="form-group">
+                    <input type="text" name="username" placeholder="Email" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Password" required>
+                    <i class="fas fa-eye-slash"></i>
+                </div>
+                <div class="forgot">Forgot your password?</div>
+                <button type="submit">Login</button>
+                <div class="create-account">Don't have an account? <a href="register.php">Create Account</a></div>
+            </form>
+        </div>
+        <div class="image-section"></div>
     </div>
 </body>
-<script>
-    function goHome() {
-        window.location.href = "../index.php";
-    }
-</script>
 
 </html>

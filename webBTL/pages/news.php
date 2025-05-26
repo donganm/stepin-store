@@ -20,7 +20,7 @@ session_start();
             font-family: "Arial", sans-serif;
             background-color: #f9f9f9;
             color: #333;
-            line-height: 1.6;
+
         }
 
         .image img {
@@ -33,17 +33,20 @@ session_start();
             padding: 20px;
             max-width: 1200px;
             margin: 0 auto;
+            line-height: 1.6;
         }
 
         .intro {
             text-align: center;
             margin-bottom: 30px;
+            line-height: 1.6;
         }
 
         .intro h1 {
             font-size: 40px;
             color: #222;
             margin-bottom: 10px;
+            line-height: 1.6;
         }
 
         .intro h3 {
@@ -52,45 +55,53 @@ session_start();
             font-style: italic;
             /* chữ nghiêng */
             margin-bottom: 20px;
+            line-height: 1.6;
         }
 
         .content {
             margin-bottom: 40px;
+            line-height: 1.6;
         }
 
         .text-image {
             display: flex;
             gap: 20px;
             align-items: center;
+            line-height: 1.6;
         }
 
         .text-image img {
             width: 300px;
             height: auto;
             border-radius: 10px;
+            line-height: 1.6;
         }
 
         .text-image p {
             flex: 1;
             font-size: 1rem;
             color: #444;
+            line-height: 1.6;
         }
 
         .gallerys {
             text-align: center;
             margin-bottom: 30px;
+            line-height: 1.6;
         }
 
         .gallerys h3 {
             font-size: 29px;
             margin-bottom: 20px;
             color: #222;
+            line-height: 1.6;
         }
 
         .gallery {
             display: flex;
             justify-content: center;
             gap: 10px;
+            line-height: 1.6;
         }
 
         .gallery img {
@@ -101,6 +112,7 @@ session_start();
             /* x, y, chieu cao bong, do mo mau 0.1 */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             /* hiệu ứng chuyển đổi */
+            line-height: 1.6;
         }
 
         .gallery img:hover {
