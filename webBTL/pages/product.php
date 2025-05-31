@@ -221,7 +221,7 @@ include '../includes/db.php';
                         echo '<div class="product-info">';
                         echo '<div class="product-name" onclick="viewDetails(\'' . $row['ProductId'] . '\')">' . $row["ProductName"] . '</div>';
                         echo '<div class="product-price">$' . $row["Price"] . '</div>';
-                        echo '<a class="product-button" onclick="buyProduct(\'' . $row['ProductId'] . '\')">Add to Cart</a>';
+                        echo '<a class="product-button" href="add_to_cart.php?id=' . $row['ProductId'] . '">Add to Cart</a>';
                         echo '</div>';
                         echo '</div>';
                     }

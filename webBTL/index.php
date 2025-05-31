@@ -99,6 +99,25 @@ session_start();
             color: #222;
         }
 
+        /* Cart */
+        .cart-icon {
+            position: relative;
+            color: #000;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            border-radius: 50%;
+            padding: 3px 7px;
+        }
+
 
         .img-animation-i {
             width: 100%;
@@ -391,6 +410,19 @@ session_start();
             <div class="header__search">
                 <div class="header__search-abc">
                     <?php if (isset($_SESSION['user'])): ?>
+                        <?php
+                        $cart_count = 0;
+                        if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+                            foreach ($_SESSION['cart'] as $item) {
+                                $cart_count += $item['quantity'];
+                            }
+                        }
+                        ?>
+
+                        <a href="../webBTL/pages/cart.php" class="cart-icon">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class="cart-count"><?= $cart_count ?></span>
+                        </a>
                         <div class="header__search-signin-des" id="user" onclick="">
                             <a href="./pages/profile.php" style="text-decoration: none;color:#444"><?php echo $_SESSION['user']; // Hiển thị tên người dùng 
                                                                                                     ?></a>

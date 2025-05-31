@@ -16,6 +16,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
             session_start();
             $_SESSION['role'] = $row['Role'];
             $_SESSION['user'] = $userName;
+            $_SESSION['UserId'] = $row['UserId'];
             header('Location: ../index.php');
             exit();
         } else {
