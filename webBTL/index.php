@@ -104,7 +104,7 @@ session_start();
             position: relative;
             color: #000;
             text-decoration: none;
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .cart-count {
@@ -116,6 +116,11 @@ session_start();
             font-size: 12px;
             border-radius: 50%;
             padding: 3px 7px;
+        }
+
+        .header__search-heart-icon {
+            font-size: 18px;
+            color: #000;
         }
 
 
@@ -421,8 +426,13 @@ session_start();
 
                         <a href="../webBTL/pages/cart.php" class="cart-icon">
                             <i class="fa fa-shopping-cart"></i>
-                            <span class="cart-count"><?= $cart_count ?></span>
+                            <!-- <span class="cart-count"><?= $cart_count ?></span> -->
                         </a>
+
+                        <a href="../webBTL/pages/wishlist.php" class="header__search-heart-icon">
+                            <i class="fa-solid fa-heart"></i>
+                        </a>
+
                         <div class="header__search-signin-des" id="user" onclick="">
                             <a href="./pages/profile.php" style="text-decoration: none;color:#444"><?php echo $_SESSION['user']; // Hiển thị tên người dùng 
                                                                                                     ?></a>

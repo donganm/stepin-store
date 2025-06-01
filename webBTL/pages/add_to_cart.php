@@ -2,39 +2,49 @@
 session_start();
 include '../includes/db.php';
 
-if (isset($_GET['id'])) {
-    $productId = $_GET['id'];
+// Kiểm tra đăng nhập
+if (!isset($_SESSION['UserId'])) {
+    header("Location: login.php");
+    exit();
+}
 
-    // Lấy thông tin sản phẩm từ DB
+$UserId = $_SESSION['UserId'];
+
+if (isset($_GET['id'])) {
+    $productId = (int)$_GET['id'];
+
+    // Lấy thông tin sản phẩm
     $sql = "SELECT * FROM products WHERE ProductId = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $productId);
+    $stmt->bind_param("i", $productId);
     $stmt->execute();
     $result = $stmt->get_result();
     $product = $result->fetch_assoc();
 
     if ($product) {
-        $item = [
-            'id' => $product['ProductId'],
-            'name' => $product['ProductName'],
-            'price' => $product['Price'],
-            'image' => $product['image_url'],
-            'quantity' => 1
-        ];
+        // Kiểm tra xem sản phẩm đã có trong giỏ chưa
+        $checkSql = "SELECT * FROM cart WHERE UserId = ? AND ProductId = ?";
+        $checkStmt = $conn->prepare($checkSql);
+        $checkStmt->bind_param("ii", $UserId, $productId);
+        $checkStmt->execute();
+        $checkResult = $checkStmt->get_result();
 
-        // Nếu cart chưa tồn tại, tạo mới
-        if (!isset($_SESSION['cart'])) {
-            $_SESSION['cart'] = [];
-        }
-
-        // Nếu sản phẩm đã có trong cart, tăng số lượng
-        if (isset($_SESSION['cart'][$productId])) {
-            $_SESSION['cart'][$productId]['quantity'] += 1;
+        if ($checkResult->num_rows > 0) {
+            // Nếu đã có, tăng số lượng
+            $updateSql = "UPDATE cart SET quantity = quantity + 1 WHERE UserId = ? AND ProductId = ?";
+            $updateStmt = $conn->prepare($updateSql);
+            $updateStmt->bind_param("ii", $UserId, $productId);
+            $updateStmt->execute();
         } else {
-            $_SESSION['cart'][$productId] = $item;
+            // Nếu chưa có, thêm mới
+            $insertSql = "INSERT INTO cart (UserId, ProductId, product_name, price, image_url, quantity)
+                          VALUES (?, ?, ?, ?, ?, 1)";
+            $insertStmt = $conn->prepare($insertSql);
+            $insertStmt->bind_param("iisds", $UserId, $productId, $product['ProductName'], $product['Price'], $product['image_url']);
+            $insertStmt->execute();
         }
 
-        // Redirect trở lại product page
+        // Chuyển hướng lại trang giỏ hàng
         header("Location: cart.php?added=success");
         exit();
     } else {

@@ -2,57 +2,40 @@
 session_start();
 include '../includes/db.php';
 
-// Khởi tạo giỏ hàng nếu chưa có
-if (!isset($_SESSION['cart'])) {
-  $_SESSION['cart'] = [];
-}
-
-// Lấy ID sản phẩm từ URL để thêm vào giỏ
-if (isset($_GET['id'])) {
-  $productId = $_GET['id'];
-
-  // Nếu sản phẩm đã có trong giỏ thì tăng số lượng
-  if (isset($_SESSION['cart'][$productId])) {
-    $_SESSION['cart'][$productId]['quantity'] += 1;
-  } else {
-    // Truy vấn thông tin sản phẩm từ CSDL
-    $sql = "SELECT * FROM products WHERE ProductId = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $productId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result && $result->num_rows > 0) {
-      $product = $result->fetch_assoc();
-      $_SESSION['cart'][$productId] = [
-        'name' => $product['ProductName'],
-        'price' => $product['Price'],
-        'image' => $product['image_url'],
-        'quantity' => 1
-      ];
-    }
-  }
-
-  // Chuyển hướng về trang giỏ hàng
-  header("Location: cart.php");
+// Kiểm tra đăng nhập
+if (!isset($_SESSION['UserId'])) {
+  header("Location: login.php");
   exit();
 }
 
-// Xử lý xóa sản phẩm khỏi giỏ
+$UserId = $_SESSION['UserId'];
+
+// Xử lý xóa từng sản phẩm
 if (isset($_GET['remove'])) {
-  $removeId = $_GET['remove'];
-  unset($_SESSION['cart'][$removeId]);
+  $productId = (int)$_GET['remove'];
+  $delStmt = $conn->prepare("DELETE FROM cart WHERE UserId = ? AND ProductId = ?");
+  $delStmt->bind_param("ii", $UserId, $productId);
+  $delStmt->execute();
   header("Location: cart.php");
   exit();
 }
 
-// Xử lý làm rỗng giỏ hàng
+// Xử lý xóa toàn bộ
 if (isset($_GET['clear']) && $_GET['clear'] == 1) {
-  $_SESSION['cart'] = [];
+  $clearStmt = $conn->prepare("DELETE FROM cart WHERE UserId = ?");
+  $clearStmt->bind_param("i", $UserId);
+  $clearStmt->execute();
   header("Location: cart.php");
   exit();
 }
+
+// Lấy danh sách giỏ hàng
+$stmt = $conn->prepare("SELECT * FROM cart WHERE UserId = ?");
+$stmt->bind_param("i", $UserId);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -64,17 +47,19 @@ if (isset($_GET['clear']) && $_GET['clear'] == 1) {
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
     }
 
-    h2 {
+    h1 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      font-weight: bold;
+      font-size: 30px;
     }
 
     .cart-container {
       max-width: 800px;
-      margin: 0 auto;
+      margin: auto;
+      margin-top: 30px;
     }
 
     table {
@@ -85,27 +70,27 @@ if (isset($_GET['clear']) && $_GET['clear'] == 1) {
 
     th,
     td {
-      border: 1px solid #ddd;
+      border: 1px solid #ccc;
       padding: 12px;
       text-align: center;
     }
 
     img {
       width: 80px;
+      height: auto;
     }
 
     .btn {
-      padding: 8px 16px;
-      background-color: #007bff;
-      border: none;
+      padding: 8px 14px;
+      background: #007bff;
       color: white;
-      border-radius: 5px;
-      cursor: pointer;
+      border: none;
+      border-radius: 4px;
       text-decoration: none;
     }
 
     .btn:hover {
-      background-color: #0056b3;
+      background: #0056b3;
     }
 
     .total {
@@ -117,53 +102,56 @@ if (isset($_GET['clear']) && $_GET['clear'] == 1) {
     .actions {
       display: flex;
       justify-content: space-between;
+      margin-top: 20px;
     }
   </style>
 </head>
 
 <body>
+
   <?php include("../includes/header.php"); ?>
 
   <div class="cart-container">
-    <h2>Your Cart</h2>
+    <h1>Your Shopping Cart</h1>
 
-    <?php if (!empty($_SESSION['cart'])): ?>
+    <?php if ($result->num_rows > 0): ?>
       <table>
         <thead>
           <tr>
             <th>Image</th>
-            <th>Name</th>
+            <th>Product</th>
             <th>Price</th>
             <th>Qty</th>
-            <th>Total</th>
+            <th>Subtotal</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <?php
-          $totalAmount = 0;
-          foreach ($_SESSION['cart'] as $id => $item):
+          $total = 0;
+          while ($item = $result->fetch_assoc()):
             $subtotal = $item['price'] * $item['quantity'];
-            $totalAmount += $subtotal;
+            $total += $subtotal;
           ?>
             <tr>
-              <td><img src="<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>"></td>
-              <td><?= htmlspecialchars($item['name']) ?></td>
+              <td><img src="<?= htmlspecialchars($item['image_url']) ?>" alt=""></td>
+              <td><?= htmlspecialchars($item['product_name']) ?></td>
               <td>$<?= number_format($item['price'], 2) ?></td>
               <td><?= $item['quantity'] ?></td>
               <td>$<?= number_format($subtotal, 2) ?></td>
-              <td><a href="cart.php?remove=<?= $id ?>" class="btn">Remove</a></td>
+              <td><a class="btn" href="cart.php?remove=<?= $item['ProductId'] ?>">Remove</a></td>
             </tr>
-          <?php endforeach; ?>
+          <?php endwhile; ?>
         </tbody>
       </table>
 
-      <div class="total">Total: $<?= number_format($totalAmount, 2) ?></div>
+      <div class="total">Total: $<?= number_format($total, 2) ?></div>
 
       <div class="actions">
         <a href="cart.php?clear=1" class="btn">Clear Cart</a>
-        <a href="checkout.php" class="btn">Checkout</a>
+        <a href="checkout.php" class="btn">Proceed to Checkout</a>
       </div>
+
     <?php else: ?>
       <p>Your cart is empty.</p>
     <?php endif; ?>

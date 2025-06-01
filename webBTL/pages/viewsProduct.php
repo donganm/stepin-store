@@ -272,7 +272,8 @@ include '../includes/db.php';
 
                 <div class="buttons">
                   <button class="add-to-cart">Thêm Vào Giỏ Hàng</button>
-                  <button class="wishlist">♡</button>
+                  <button class="wishlist" data-productid="<?php echo $row['ProductId']; ?>">♡</button>
+
                 </div>
               </div>
             </div>
@@ -348,3 +349,48 @@ include '../includes/db.php';
   <?php
   include '../includes/footer.php';
   ?>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const wishlistBtn = document.querySelector('.wishlist');
+
+      if (!wishlistBtn) return;
+
+      wishlistBtn.addEventListener('click', function() {
+        const productId = this.getAttribute('data-productid');
+
+        fetch('../logic/wishlist_action.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'ProductId=' + productId
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'added') {
+              wishlistBtn.style.color = 'red';
+            } else if (data.status === 'removed') {
+              wishlistBtn.style.color = 'black';
+            } else if (data.status === 'error') {
+              alert(data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      });
+
+      // Khi tải trang, kiểm tra sản phẩm đã yêu thích chưa để đổi màu
+      const productId = wishlistBtn.getAttribute('data-productid');
+      fetch('../logic/check_wishlist.php?ProductId=' + productId)
+        .then(response => response.json())
+        .then(data => {
+          if (data.is_wishlist) {
+            wishlistBtn.style.color = 'red';
+          } else {
+            wishlistBtn.style.color = 'black';
+          }
+        });
+    });
+  </script>

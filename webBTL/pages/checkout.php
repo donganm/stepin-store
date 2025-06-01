@@ -5,26 +5,44 @@ include '../includes/db.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Include thư viện PHPMailer nếu có
 require '../includes/PHPMailer/src/Exception.php';
 require '../includes/PHPMailer/src/PHPMailer.php';
 require '../includes/PHPMailer/src/SMTP.php';
 
-// Kiểm tra người dùng đã đăng nhập
+// Kiểm tra đăng nhập
 if (!isset($_SESSION['UserId'])) {
-    header("Location: ../pages/login.php"); // Chuyển hướng nếu chưa đăng nhập
+    header("Location: ../pages/login.php");
     exit();
 }
 
-// Kiểm tra giỏ hàng
-if (empty($_SESSION['cart'])) {
+$UserId = $_SESSION['UserId'];
+$orderCode = null;
+
+// Lấy dữ liệu giỏ hàng từ CSDL theo UserId
+$cartQuery = $conn->prepare("SELECT c.ProductId, c.quantity, p.name, p.price, p.image 
+                             FROM cart c 
+                             JOIN products p ON c.ProductId = p.id 
+                             WHERE c.UserId = ?");
+$cartQuery->bind_param("i", $UserId);
+$cartQuery->execute();
+$cartResult = $cartQuery->get_result();
+
+$cartItems = [];
+$totalAmount = 0;
+
+while ($row = $cartResult->fetch_assoc()) {
+    $row['subtotal'] = $row['price'] * $row['quantity'];
+    $totalAmount += $row['subtotal'];
+    $cartItems[] = $row;
+}
+
+// Nếu giỏ hàng rỗng
+if (empty($cartItems)) {
     header("Location: cart.php");
     exit();
 }
 
-$orderCode = null;
-
-// Xử lý khi submit
+// Xử lý khi người dùng nhấn Đặt hàng
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'] ?? '';
     $phone = $_POST['phone'] ?? '';
@@ -33,15 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($name) || empty($phone) || empty($address)) {
         $error = "Vui lòng nhập đầy đủ thông tin.";
     } else {
-        $UserId = $_SESSION['UserId'];
-
-        // Tính tổng đơn
-        $totalAmount = 0;
-        foreach ($_SESSION['cart'] as $item) {
-            $totalAmount += $item['price'] * $item['quantity'];
-        }
-
-        // Lưu vào bảng orders (đã thêm user_id)
+        // Lưu vào bảng orders
         $stmt = $conn->prepare("INSERT INTO orders (customer_name, phone, address, total, UserId) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssdi", $name, $phone, $address, $totalAmount, $UserId);
         $stmt->execute();
@@ -50,12 +60,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Lưu vào bảng order_items
         $stmt_item = $conn->prepare("INSERT INTO order_items (order_id, product_name, quantity, price, image) VALUES (?, ?, ?, ?, ?)");
-        foreach ($_SESSION['cart'] as $item) {
+        foreach ($cartItems as $item) {
             $stmt_item->bind_param("isids", $orderId, $item['name'], $item['quantity'], $item['price'], $item['image']);
             $stmt_item->execute();
         }
 
-        // Gửi email xác nhận (tùy chọn)
+        // Gửi email xác nhận
         try {
             $mail = new PHPMailer(true);
             $mail->isSMTP();
@@ -67,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->Port = 587;
 
             $mail->setFrom('youremail@gmail.com', 'Shop');
-            $mail->addAddress('customer@example.com'); // sửa thành email người mua nếu có
+            $mail->addAddress('customer@example.com'); // Có thể thay bằng email người dùng nếu có lưu
 
             $mail->isHTML(true);
             $mail->Subject = 'Xác nhận đơn hàng ' . $orderCode;
@@ -75,14 +85,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $mail->send();
         } catch (Exception $e) {
-            // Log lỗi nếu cần
+            // Ghi log lỗi nếu cần
         }
 
-        $_SESSION['cart'] = []; // Xóa giỏ hàng sau khi đặt
+        // Xóa giỏ hàng khỏi CSDL
+        $deleteCart = $conn->prepare("DELETE FROM cart WHERE UserId = ?");
+        $deleteCart->bind_param("i", $UserId);
+        $deleteCart->execute();
+
         $success = "Đặt hàng thành công! Mã đơn của bạn là <strong>$orderCode</strong>.";
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -196,23 +211,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    $totalAmount = 0;
-                    foreach ($_SESSION['cart'] as $item):
-                        $subtotal = $item['price'] * $item['quantity'];
-                        $totalAmount += $subtotal;
-                    ?>
+                    <?php foreach ($cartItems as $item): ?>
                         <tr>
                             <td><img src="<?= $item['image'] ?>" alt="<?= $item['name'] ?>"></td>
                             <td><?= $item['name'] ?></td>
                             <td><?= $item['quantity'] ?></td>
                             <td>$<?= number_format($item['price'], 2) ?></td>
-                            <td>$<?= number_format($subtotal, 2) ?></td>
+                            <td>$<?= number_format($item['subtotal'], 2) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-
             <div class="total"><strong>Total:</strong> $<?= number_format($totalAmount, 2) ?></div>
 
             <form method="post">
