@@ -18,10 +18,10 @@ if (!isset($_SESSION['UserId'])) {
 $UserId = $_SESSION['UserId'];
 $orderCode = null;
 
-// Lấy dữ liệu giỏ hàng từ CSDL theo UserId
-$cartQuery = $conn->prepare("SELECT c.ProductId, c.quantity, p.name, p.price, p.image 
+// Lấy dữ liệu giỏ hàng
+$cartQuery = $conn->prepare("SELECT c.ProductId, c.quantity, p.ProductName, p.Price, p.image_url 
                              FROM cart c 
-                             JOIN products p ON c.ProductId = p.id 
+                             JOIN products p ON c.ProductId = p.ProductId
                              WHERE c.UserId = ?");
 $cartQuery->bind_param("i", $UserId);
 $cartQuery->execute();
@@ -31,7 +31,7 @@ $cartItems = [];
 $totalAmount = 0;
 
 while ($row = $cartResult->fetch_assoc()) {
-    $row['subtotal'] = $row['price'] * $row['quantity'];
+    $row['subtotal'] = $row['Price'] * $row['quantity'];
     $totalAmount += $row['subtotal'];
     $cartItems[] = $row;
 }
@@ -42,42 +42,42 @@ if (empty($cartItems)) {
     exit();
 }
 
-// Xử lý khi người dùng nhấn Đặt hàng
+// Xử lý đặt hàng
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'] ?? '';
-    $phone = $_POST['phone'] ?? '';
-    $address = $_POST['address'] ?? '';
+    $name = trim($_POST['name'] ?? '');
+    $phone = trim($_POST['phone'] ?? '');
+    $address = trim($_POST['address'] ?? '');
 
     if (empty($name) || empty($phone) || empty($address)) {
         $error = "Vui lòng nhập đầy đủ thông tin.";
     } else {
-        // Lưu vào bảng orders
+        // Thêm vào bảng orders
         $stmt = $conn->prepare("INSERT INTO orders (customer_name, phone, address, total, UserId) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssdi", $name, $phone, $address, $totalAmount, $UserId);
         $stmt->execute();
         $orderId = $stmt->insert_id;
         $orderCode = 'DH' . str_pad($orderId, 6, '0', STR_PAD_LEFT);
 
-        // Lưu vào bảng order_items
+        // Lưu order_items
         $stmt_item = $conn->prepare("INSERT INTO order_items (order_id, product_name, quantity, price, image) VALUES (?, ?, ?, ?, ?)");
         foreach ($cartItems as $item) {
-            $stmt_item->bind_param("isids", $orderId, $item['name'], $item['quantity'], $item['price'], $item['image']);
+            $stmt_item->bind_param("isids", $orderId, $item['ProductName'], $item['quantity'], $item['Price'], $item['image_url']);
             $stmt_item->execute();
         }
 
-        // Gửi email xác nhận
+        // Gửi email
         try {
             $mail = new PHPMailer(true);
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'youremail@gmail.com';
-            $mail->Password = 'yourpassword';
+            $mail->Username = 'youremail@gmail.com'; // thay bằng email của bạn
+            $mail->Password = 'yourpassword'; // thay bằng mật khẩu ứng dụng
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
             $mail->setFrom('youremail@gmail.com', 'Shop');
-            $mail->addAddress('customer@example.com'); // Có thể thay bằng email người dùng nếu có lưu
+            $mail->addAddress('customer@example.com'); // thay bằng email người dùng nếu có
 
             $mail->isHTML(true);
             $mail->Subject = 'Xác nhận đơn hàng ' . $orderCode;
@@ -85,10 +85,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $mail->send();
         } catch (Exception $e) {
-            // Ghi log lỗi nếu cần
+            // Ghi log nếu cần
         }
 
-        // Xóa giỏ hàng khỏi CSDL
+        // Xoá giỏ hàng
         $deleteCart = $conn->prepare("DELETE FROM cart WHERE UserId = ?");
         $deleteCart->bind_param("i", $UserId);
         $deleteCart->execute();
@@ -97,8 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -114,14 +112,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             padding: 20px;
         }
 
-        h2 {
+        h1 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            font-weight: bold;
+            font-size: 30px;
         }
 
         .checkout-container {
             max-width: 800px;
             margin: 0 auto;
+            margin-top: 30px;
         }
 
         table {
@@ -184,6 +185,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #d4edda;
             color: #155724;
         }
+
+        .total {
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
     </style>
 </head>
 
@@ -191,10 +198,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include("../includes/header.php"); ?>
 
     <div class="checkout-container">
-        <h2>Checkout</h2>
+        <h1>Checkout</h1>
 
         <?php if (!empty($error)): ?>
-            <div class="message error"><?= $error ?></div>
+            <div class="message error"><?= htmlspecialchars($error) ?></div>
         <?php elseif (!empty($success)): ?>
             <div class="message success"><?= $success ?></div>
         <?php endif; ?>
@@ -213,10 +220,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <tbody>
                     <?php foreach ($cartItems as $item): ?>
                         <tr>
-                            <td><img src="<?= $item['image'] ?>" alt="<?= $item['name'] ?>"></td>
-                            <td><?= $item['name'] ?></td>
+                            <td><img src="<?= htmlspecialchars($item['image_url']) ?>" alt="<?= htmlspecialchars($item['ProductName']) ?>"></td>
+                            <td><?= htmlspecialchars($item['ProductName']) ?></td>
                             <td><?= $item['quantity'] ?></td>
-                            <td>$<?= number_format($item['price'], 2) ?></td>
+                            <td>$<?= number_format($item['Price'], 2) ?></td>
                             <td>$<?= number_format($item['subtotal'], 2) ?></td>
                         </tr>
                     <?php endforeach; ?>
