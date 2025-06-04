@@ -414,15 +414,18 @@ $role = $_SESSION['role'];
             <li>Đổi Mật Khẩu</li>
             <?php if ($role == 'User'): ?>
               <li>Đăng Kí Bán Hàng</li>
-
+              <li>Quản Lý Đơn Hàng</li>
             <?php endif; ?>
-
             <?php if ($role == 'Seller'): ?>
               <li>Sell</li>
               <li>Quản Lý Sản Phẩm</li>
+              <li>Quản Lý Đơn Hàng</li>
+              <li>Quản Lý Khuyến Mãi</li>
+              <li>Báo Cáo Thống Kê</li>
             <?php endif; ?>
             <?php if ($role == 'Admin'): ?>
               <li>Quản Lý Người Dùng</li>
+              <li>Báo Cáo Thống Kê</li>
             <?php endif; ?>
             <li><a href="../index.php" style="text-decoration: none;color:#444;">Trở lại</a></li>
           </ul>
@@ -601,11 +604,9 @@ $role = $_SESSION['role'];
         <table class="product-table">
           <thead>
             <tr>
-
               <th>Tên Sản Phẩm</th>
               <th>Giá</th>
               <th>Số Lượng</th>
-
               <th>Chức Năng</th>
             </tr>
           </thead>
@@ -644,7 +645,6 @@ $role = $_SESSION['role'];
             </tbody>
           <?php } ?>
         </table>
-
       </div>
 
       <!-- Quản Lý Người Dùng -->
@@ -664,7 +664,6 @@ $role = $_SESSION['role'];
           $result = mysqli_query($conn, $sql);
           while ($row = mysqli_fetch_array($result)) {
             $id = $row['UserId'];
-
           ?>
             <tbody>
               <tr>
@@ -684,8 +683,116 @@ $role = $_SESSION['role'];
       <?php } ?>
       </div>
 
+      <!-- Quản lý đơn hàng -->
+      <div id="manage-orders-content" class="content-section" style="display: none">
+        <h2>Quản Lý Đơn Hàng</h2>
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th>Tên Khách Hàng</th>
+              <th>Số Điện Thoại</th>
+              <th>Địa Chỉ</th>
+              <th>Tổng Tiền</th>
+              <th>Ngày Đặt Hàng</th>
+              <th>Phương Thức Thanh Toán</th>
+              <th>Chức Năng</th>
+            </tr>
+          </thead>
+          <?php
+          $sql = "Select * from orders";
+          $result = mysqli_query($conn, $sql);
+          while ($row = mysqli_fetch_array($result)) {
+            $id = $row['id'];
+          ?>
+            <tbody>
+              <tr>
+                <td><?php echo $row['customer_name']; ?></td>
+                <td><?php echo $row['phone']; ?></td>
+                <td><?php echo $row['address']; ?></td>
+                <td><?php echo $row['total']; ?></td>
+                <td><?php echo $row['created_at']; ?></td>
+                <td></td>
+                <td>
+                  <?php if (isset($idd)) {
+                    echo '<a class="update" href="update_order.php?id=' . $idd . '">Cập nhật</a>';
+                  } else {
+                    echo 'Không có dữ liệu UserId.';
+                  } ?>
+                  <?php
+                  // Kiểm tra nếu biến $idd và $idp đã được gán giá trị
+                  if (isset($idd)) {
+                    // Tạo liên kết xóa với cả ID người dùng và ID sản phẩm
+                    echo '<a class="delete" href="../logic/delete_order.php?id=' . $idd . '">Xóa</a>';
+                  } else {
+                    // Hiển thị thông báo nếu không có dữ liệu UserId hoặc ProductId
+                    echo 'Không có dữ liệu ID người dùng hoặc ID sản phẩm.';
+                  }
+                  ?>
+                </td>
+              </tr>
+            </tbody>
+          <?php } ?>
+        </table>
+      </div>
 
+      <!-- Quản lý khuyến mãi -->
+      <div id="manage-promotion-content" class="content-section" style="display: none">
+        <h2>Quản Lý Khuyến Mãi</h2>
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th>Tên Khuyến Mãi</th>
+              <th>Mô Tả</th>
+              <th>Giá Trị Giảm</th>
+              <th>Loại Giảm</th>
+              <th>Ngày Bắt Đầu</th>
+              <th>Ngày Kết Thúc</th>
+              <th>Diều Kiện Áp Dụng</th>
+              <th>Chức Năng</th>
+            </tr>
+          </thead>
+          <?php
+          $sql = "Select * from khuyenmai";
+          $result = mysqli_query($conn, $sql);
+          while ($row = mysqli_fetch_array($result)) {
+            $id = $row['MaKM'];
+          ?>
+            <tbody>
+              <tr>
+                <td><?php echo $row['TenKM']; ?></td>
+                <td><?php echo $row['MoTa']; ?></td>
+                <td><?php echo $row['GiaTriGiam']; ?></td>
+                <td><?php echo $row['LoaiGiam']; ?></td>
+                <td><?php echo $row['NgayBatDau']; ?></td>
+                <td><?php echo $row['NgayKetThuc']; ?></td>
+                <td><?php echo $row['DieuKienApDung']; ?></td>
+                <td>
+                  <?php if (isset($idd)) {
+                    echo '<a class="update" href="update_khuyenmai.php?id=' . $idd . '">Cập nhật</a>';
+                  } else {
+                    echo 'Không có dữ liệu UserId.';
+                  } ?>
+                  <?php
+                  // Kiểm tra nếu biến $idd và $idp đã được gán giá trị
+                  if (isset($idd)) {
+                    // Tạo liên kết xóa với cả ID người dùng và ID sản phẩm
+                    echo '<a class="delete" href="../logic/delete_khuyenmai.php?id=' . $idd . '">Xóa</a>';
+                  } else {
+                    // Hiển thị thông báo nếu không có dữ liệu UserId hoặc ProductId
+                    echo 'Không có dữ liệu ID người dùng hoặc ID sản phẩm.';
+                  }
+                  ?>
+                </td>
+              </tr>
+            </tbody>
+          <?php } ?>
+        </table>
+      </div>
 
+      <!-- Báo cáo thống kê -->
+      <div id="manage-report-content" class="content-section" style="display: none">
+        <h2>Báo Cáo Thống Kê</h2>
+      </div>
 
     </div>
   </div>
@@ -705,23 +812,48 @@ $role = $_SESSION['role'];
     {
       menu: ".menu li:nth-child(3)",
       content: "register-sell-content", // Đăng Kí Bán Hàng
-      condition: "User" // Chỉ hiển thị nếu vai trò là User
+      condition: "User"
+    },
+    {
+      menu: ".menu li:nth-child(4)",
+      content: "manage-orders-content", // Quản lý đơn hàng
+      condition: "User"
+    },
+    {
+      menu: ".menu li:nth-child(5)",
+      content: "manage-orders-content", // Quản lý đơn hàng
+      condition: "Seller"
     },
     {
       menu: ".menu li:nth-child(3)",
       content: "sell", // Sell
-      condition: "Seller" // Chỉ hiển thị nếu vai trò là Seller
+      condition: "Seller"
     },
     {
       menu: ".menu li:nth-child(4)",
       content: "manage-products-content", // Quản Lý Sản Phẩm
-      condition: "Seller" // Chỉ hiển thị nếu vai trò là Seller
+      condition: "Seller"
+    },
+    {
+      menu: ".menu li:nth-child(6)",
+      content: "manage-promotion-content", // Quản Lý Khuyến Mãi
+      condition: "Seller"
+    },
+    {
+      menu: ".menu li:nth-child(7)",
+      content: "manage-report-content", // Báo cáo thống kê
+      condition: "Seller"
     },
     {
       menu: ".menu li:nth-child(3)",
       content: "manage-users-content", // Quản Lý Người Dùng
-      condition: "Admin" // Chỉ hiển thị nếu vai trò là Admin
-    }
+      condition: "Admin"
+    },
+    {
+      menu: ".menu li:nth-child(4)",
+      content: "manage-report-content", // Báo cáo thống kê
+      condition: "Admin"
+    },
   ];
 
   // Vai trò của người dùng (lấy từ PHP)

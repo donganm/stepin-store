@@ -129,6 +129,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
             clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
         }
 
+        .create-account {
+            text-align: center;
+        }
+
         @media (max-width: 768px) {
             .login-container {
                 flex-direction: column;
@@ -148,7 +152,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 <body>
     <div class="login-container">
         <div class="form-section">
-            <h2>Log in to your account.</h2>
+            <h2>Log in to your account..</h2>
             <form method="POST" action="login.php">
                 <div class="form-group">
                     <input type="text" name="username" placeholder="Email" required>
