@@ -1,4 +1,3 @@
-# Stepin Store – Hệ thống quản lý và bán hàng trực tuyến
 
 ## 📌 Giới thiệu
 Stepin Store là nền tảng thương mại điện tử hỗ trợ **khách hàng**, **người bán** và **quản trị viên** trong việc mua bán trực tuyến.  
